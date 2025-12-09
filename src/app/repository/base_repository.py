@@ -28,7 +28,11 @@ class BaseRepository:
         - mode: 'one' para fetchone, 'all' para fetchall, None para operaciones tipo INSERT/UPDATE/DELETE.
         """
         try:
-            self.cursor.execute(query, params)
+            if params is None:
+                self.cursor.execute(query)
+            else:
+                self.cursor.execute(query, params)
+
             if mode == "one":
                 return fetch_one(self.cursor)
             elif mode == "all":
