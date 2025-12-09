@@ -12,3 +12,13 @@ class TasksRepository(BaseRepository):
     def get_tasks_by_status(self, status: int):
         query = """SELECT * FROM tasks WHERE status = ?"""
         return self._execute_query(query, params=(status,), mode="all")
+
+    def create_task(self, name: str, begin_date: str, end_date: str, short_description: str, long_description: str, status: int):
+        query = """
+                INSERT INTO tasks (name, begin_date, end_date, short_description, long_description, status)
+                VALUES (?, ?, ?, ?, ?, ?);
+                """
+        try:
+            self._execute_query(query, mode=None, params=(name, begin_date, end_date, short_description, long_description, status))
+        except Exception:
+            raise

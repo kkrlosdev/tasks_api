@@ -1,7 +1,9 @@
 from fastapi import APIRouter
 from fastapi.exceptions import HTTPException
+from fastapi.responses import Response
 from ..repository.task_repository import TasksRepository
 from ..services.tasks_service import TasksService
+from ..models.task import Task
 
 router = APIRouter(
     prefix="/tasks",
@@ -25,3 +27,26 @@ async def get_tasks(status: int | None = None):
         else:
             data = service.list_tasks()
         return data
+
+@router.post(
+    "",
+    summary="Crea una tarea en base de datos.",
+    description="Se valida el JSON recibido mediante Pydantic"
+)
+async def create_task(task: Task):
+    with TasksRepository() as repo:
+        service = TasksService(repo)
+        try:
+            service.create_task_service(
+                                    task.name,
+                                    task.begin_date,
+                                    task.end_date,
+                                    task.short_description,
+                                    task.long_description,
+                                    task.status
+                                    )
+            return Response(status_code=204)
+        except ValueError as e:
+            raise HTTPException(400, detail=str(e))
+        except Exception as e:
+            raise HTTPException(500, detail=str(e))
