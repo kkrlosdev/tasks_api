@@ -19,6 +19,8 @@ class TasksRepository(BaseRepository):
                 VALUES (?, ?, ?, ?, ?, ?);
                 """
         try:
-            self._execute_query(query, mode=None, params=(name, begin_date, end_date, short_description, long_description, status))
+            data = self._execute_query(query, mode=None, params=(name, begin_date, end_date, short_description, long_description, status))
+            if data["rowcount"] == 1:
+                return {"id": data["lastrowid"]}
         except Exception:
             raise

@@ -33,6 +33,9 @@ class TasksService:
             raise ValueError("Estado inválido.")
 
         try:
-            self.repo.create_task(name, begin_date, end_date, short_description, long_description, status)
+            data = self.repo.create_task(name, begin_date, end_date, short_description, long_description, status)
+            lastrowid = data.get("id")
+            if lastrowid:
+                return lastrowid
         except Exception:
             raise

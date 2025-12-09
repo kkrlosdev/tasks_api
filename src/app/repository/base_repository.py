@@ -37,6 +37,8 @@ class BaseRepository:
                 return fetch_one(self.cursor)
             elif mode == "all":
                 return fetch_all(self.cursor)
+            elif mode is None:
+                return {"rowcount": self.cursor.rowcount, "lastrowid": self.cursor.lastrowid}
         except:
             raise
         finally:

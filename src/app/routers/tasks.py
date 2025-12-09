@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from fastapi.exceptions import HTTPException
-from fastapi.responses import Response
+from fastapi.responses import JSONResponse
 from ..repository.task_repository import TasksRepository
 from ..services.tasks_service import TasksService
 from ..models.task import Task
@@ -37,7 +37,7 @@ async def create_task(task: Task):
     with TasksRepository() as repo:
         service = TasksService(repo)
         try:
-            service.create_task_service(
+            task = service.create_task_service(
                                     task.name,
                                     task.begin_date,
                                     task.end_date,
@@ -45,7 +45,7 @@ async def create_task(task: Task):
                                     task.long_description,
                                     task.status
                                     )
-            return Response(status_code=204)
+            return JSONResponse(content={"id": task}, status_code=201, headers={"Location": f"/tasks/{task}"})
         except ValueError as e:
             raise HTTPException(400, detail=str(e))
         except Exception as e:
