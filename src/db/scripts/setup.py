@@ -14,7 +14,7 @@ def create_tasks_table():
     try:
         cursor.execute("""
                     CREATE TABLE IF NOT EXISTS tasks(
-                                        id PRIMARY KEY,
+                                        id INTEGER PRIMARY KEY,
                                         name TEXT NOT NULL,
                                         begin_date DATETIME,
                                         end_date DATETIME,
