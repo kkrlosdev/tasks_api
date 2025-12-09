@@ -16,4 +16,4 @@ class TasksService:
     def list_tasks_by_status(self, status: int):
         if status not in (0, 1, 2):
             raise ValueError("Estado inválido.")
-        self.repo.get_tasks_by_status(status)
+        return self.repo.get_tasks_by_status(status)
