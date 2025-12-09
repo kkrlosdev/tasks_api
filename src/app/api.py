@@ -5,11 +5,16 @@ import uvicorn
 app = FastAPI(
     debug=True,
     title="Tasks API",
-    summary="Health check de la API.",
-    description="Acopla todos los endpoints habilitados para la gestión de tareas"
+    summary="API REST para gestión de tareas.",
+    description="Acopla todos los endpoints habilitados para la gestión de tareas."
 )
 
-@app.get("/")
+@app.get(
+        "/",
+        tags=["Health Check"],
+        summary="Health check de la API.",
+        description="Retorna un mensaje sencillo para indicar que la API está activa."
+        )
 async def health_check():
     return {"status": "OK"}
 
