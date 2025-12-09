@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from .routers import tasks
 import uvicorn
 
 app = FastAPI(
@@ -11,6 +12,8 @@ app = FastAPI(
 @app.get("/")
 async def health_check():
     return {"status": "OK"}
+
+app.include_router(tasks.router)
 
 if __name__ == "__main__":
     uvicorn.run(
