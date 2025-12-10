@@ -51,7 +51,11 @@ async def create_task(task: Task):
         except Exception as e:
             raise HTTPException(500, detail=str(e))
 
-@router.delete("/{id}")
+@router.delete(
+        "/{id}",
+        summary="Recibe un id como parámetro de ruta y lo elimina de la base de datos",
+        description="Si el id no existe se retornará 404, de lo contrario, se retorna 204 en caso de éxito."
+)
 async def delete_task(id: int):
     with TasksRepository() as repo:
         service = TasksService(repo)
