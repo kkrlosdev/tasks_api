@@ -1,6 +1,6 @@
 # Tasks API 📄
 
-The purpose of this API is implement basic HTTP operations for an web application built in React.
+The purpose of this API is implement basic HTTP operations for a web application built in React.
 It's not a fully implemented project and its own name lets you know that it isn't a complex project.
 Even so, this is a small sample of all the things that I've learned so far. 
 I've built bigger projects with FastAPI but they belong to the company I work for, so I can't show their code :).
