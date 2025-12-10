@@ -3,7 +3,9 @@ from fastapi.exceptions import HTTPException
 from fastapi.responses import JSONResponse, Response
 from ..repository.task_repository import TasksRepository
 from ..services.tasks_service import TasksService
+from ..services.exceptions import NotFoundError
 from ..models.task import Task
+from ..models.task_update import TaskUpdate
 
 router = APIRouter(
     prefix="/tasks",
@@ -66,3 +68,27 @@ async def delete_task(id: int):
 
         service.delete_task_service(task["id"])
         return Response(status_code=204)
+
+@router.put(
+    "/{id}",
+    summary="Actualiza completamente un recurso en la base de datos",
+    description="Validamos la estructura del JSON mediante un modelo TaskUpdate donde recibamos el ID y los datos de la tarea."
+)
+async def update_task(task: TaskUpdate):
+    try:
+        with TasksRepository() as repo:
+            service = TasksService(repo)
+            service.update_task_service(
+                task.id,
+                task.name,
+                task.begin_date,
+                task.end_date,
+                task.short_description,
+                task.long_description,
+                task.status
+            )
+            return Response(status_code=204)
+    except ValueError as e:
+        raise HTTPException(400, detail=str(e))
+    except NotFoundError as e:
+        raise HTTPException(404, detail=str(e))
