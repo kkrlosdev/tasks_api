@@ -24,3 +24,8 @@ class TasksRepository(BaseRepository):
                 return {"id": data["lastrowid"]}
         except Exception:
             raise
+
+    def delete_task(self, id: int):
+        query = """DELETE FROM tasks WHERE id = ?;"""
+        data = self._execute_query(query, (id,))
+        return data
