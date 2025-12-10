@@ -41,5 +41,3 @@ class BaseRepository:
                 return {"rowcount": self.cursor.rowcount, "lastrowid": self.cursor.lastrowid}
         except:
             raise
-        finally:
-            self.cursor.close()

@@ -39,3 +39,13 @@ class TasksService:
                 return lastrowid
         except Exception:
             raise
+
+    def delete_task_service(self, id: int):
+        try:
+            data = self.repo.delete_task(id)
+            rowcount = data["rowcount"]
+            if rowcount == 0:
+                raise ValueError("La tarea no existe en la base de datos.")
+            return True
+        except Exception:
+            raise

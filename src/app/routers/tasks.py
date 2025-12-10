@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from fastapi.exceptions import HTTPException
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
 from ..repository.task_repository import TasksRepository
 from ..services.tasks_service import TasksService
 from ..models.task import Task
@@ -50,3 +50,15 @@ async def create_task(task: Task):
             raise HTTPException(400, detail=str(e))
         except Exception as e:
             raise HTTPException(500, detail=str(e))
+
+@router.delete("/{id}")
+async def delete_task(id: int):
+    with TasksRepository() as repo:
+        service = TasksService(repo)
+
+        task = service.get_task(id)
+        if not task:
+            raise HTTPException(status_code=404, detail=f"No existe la tarea con ID: {id}")
+
+        service.delete_task_service(task["id"])
+        return Response(status_code=204)
