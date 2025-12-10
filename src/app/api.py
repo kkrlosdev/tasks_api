@@ -3,7 +3,6 @@ from .routers import tasks
 import uvicorn
 
 app = FastAPI(
-    debug=True,
     title="Tasks API",
     summary="API REST para gestión de tareas.",
     description="Acopla todos los endpoints habilitados para la gestión de tareas."
