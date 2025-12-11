@@ -1,4 +1,8 @@
-def fetch_one(cursor) -> dict:
+def fetch_one(cursor) -> dict | None:
     columns = [desc[0] for desc in cursor.description]
     row = cursor.fetchone()
-    return dict(zip(columns, row) if row else None)
+
+    if row is None:
+        return None
+
+    return {col: val for col, val in zip(columns, row)}
