@@ -3,7 +3,9 @@ from fastapi.exceptions import HTTPException
 from fastapi.responses import JSONResponse, Response
 from ..repository.task_repository import TasksRepository
 from ..services.tasks_service import TasksService
+from ..exceptions.exceptions import NotFoundError
 from ..models.task import Task
+from ..models.task_update import TaskUpdate
 
 router = APIRouter(
     prefix="/tasks",
@@ -51,14 +53,43 @@ async def create_task(task: Task):
         except Exception as e:
             raise HTTPException(500, detail=str(e))
 
-@router.delete("/{id}")
+@router.delete(
+        "/{id}",
+        summary="Recibe un id como parámetro de ruta y lo elimina de la base de datos",
+        description="Si el id no existe se retornará 404, de lo contrario, se retorna 204 en caso de éxito."
+)
 async def delete_task(id: int):
     with TasksRepository() as repo:
         service = TasksService(repo)
 
-        task = service.get_task(id)
-        if not task:
+        try:
+            task = service.get_task(id)
+        except NotFoundError:
             raise HTTPException(status_code=404, detail=f"No existe la tarea con ID: {id}")
 
         service.delete_task_service(task["id"])
         return Response(status_code=204)
+
+@router.put(
+    "/{id}",
+    summary="Actualiza completamente un recurso en la base de datos",
+    description="Validamos la estructura del JSON mediante un modelo TaskUpdate donde recibamos el ID y los datos de la tarea."
+)
+async def update_task(task: TaskUpdate):
+    try:
+        with TasksRepository() as repo:
+            service = TasksService(repo)
+            service.update_task_service(
+                task.id,
+                task.name,
+                task.begin_date,
+                task.end_date,
+                task.short_description,
+                task.long_description,
+                task.status
+            )
+            return Response(status_code=204)
+    except ValueError as e:
+        raise HTTPException(400, detail=str(e))
+    except NotFoundError as e:
+        raise HTTPException(404, detail=str(e))

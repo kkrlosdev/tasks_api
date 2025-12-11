@@ -29,3 +29,12 @@ class TasksRepository(BaseRepository):
         query = """DELETE FROM tasks WHERE id = ?;"""
         data = self._execute_query(query, (id,))
         return data
+
+    def update_task(self, id: int, name: str, begin_date: str, end_date: str, short_description: str, long_description: str, status: int):
+        query = """
+                UPDATE tasks
+                SET name = ?, begin_date = ?, end_date = ?,
+                short_description = ?, long_description = ?, status = ?
+                WHERE id = ?
+                """
+        return self._execute_query(query, (name, begin_date, end_date, short_description, long_description, status, id))
