@@ -14,9 +14,9 @@
 ├── src <-- Source code
 │   ├── app <-- FastAPI core application
 │   │   ├── api.py <-- Entry point containing FastAPI() object
-    │   ├── exceptions <-- Custom exceptions
-    │   │   ├── exceptions.py
-    │   │   └── __init__.py
+│   │   ├── exceptions <-- Custom exceptions
+│   │   │   ├── exceptions.py
+│   │   │   └── __init__.py
 │   │   ├── models <-- Pydantic models
 │   │   │   ├── __init__.py
 │   │   │   └── task.py
@@ -56,3 +56,6 @@ This includes all files related to the containerization and deployment of the pr
 
 # 📁 docs/  
 It contains the project documentation, including explanations of the architecture, code structure, design patterns used, and any other information relevant to developers. It serves as a technical reference and a guide for understanding the project design.
+
+# 📁 exceptions/  
+It contains the API custom exceptions for handling edge cases.
