@@ -14,6 +14,9 @@
 ├── src <-- Source code
 │   ├── app <-- FastAPI core application
 │   │   ├── api.py <-- Entry point containing FastAPI() object
+    │   ├── exceptions <-- Custom exceptions
+    │   │   ├── exceptions.py
+    │   │   └── __init__.py
 │   │   ├── models <-- Pydantic models
 │   │   │   ├── __init__.py
 │   │   │   └── task.py
