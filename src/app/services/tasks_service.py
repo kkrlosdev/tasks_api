@@ -1,4 +1,4 @@
-from .exceptions import NotFoundError
+from ..exceptions.exceptions import NotFoundError
 from ..repository.task_repository import TasksRepository
 from ..utils.validate_date import validate_date
 
@@ -12,7 +12,7 @@ class TasksService:
     def get_task(self, id: int):
         task = self.repo.get_task_by_id(id)
         if not task:
-            raise ValueError("La tarea no existe.")
+            raise NotFoundError("La tarea no existe.")
         return task
 
     def list_tasks_by_status(self, status: int):
@@ -46,7 +46,7 @@ class TasksService:
             data = self.repo.delete_task(id)
             rowcount = data["rowcount"]
             if rowcount == 0:
-                raise ValueError("La tarea no existe en la base de datos.")
+                raise NotFoundError("La tarea no existe en la base de datos.")
             return True
         except Exception:
             raise
@@ -61,10 +61,10 @@ class TasksService:
             raise ValueError("Longitud de la descripción corta excede los 100 carácteres.")
 
         if status not in (0, 1, 2):
-            raise NotFoundError("Estado inválido.")
+            raise ValueError("Estado inválido.")
 
         exists = self.repo.get_task_by_id(id)
         if not exists:
-            raise ValueError("Tarea no encontrada en la base de datos.")
+            raise NotFoundError("Tarea no encontrada en la base de datos.")
 
         return self.repo.update_task(id, name, begin_date, end_date, short_description, long_description, status)

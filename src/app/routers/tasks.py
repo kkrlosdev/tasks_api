@@ -3,7 +3,7 @@ from fastapi.exceptions import HTTPException
 from fastapi.responses import JSONResponse, Response
 from ..repository.task_repository import TasksRepository
 from ..services.tasks_service import TasksService
-from ..services.exceptions import NotFoundError
+from ..exceptions.exceptions import NotFoundError
 from ..models.task import Task
 from ..models.task_update import TaskUpdate
 
@@ -62,8 +62,9 @@ async def delete_task(id: int):
     with TasksRepository() as repo:
         service = TasksService(repo)
 
-        task = service.get_task(id)
-        if not task:
+        try:
+            task = service.get_task(id)
+        except NotFoundError:
             raise HTTPException(status_code=404, detail=f"No existe la tarea con ID: {id}")
 
         service.delete_task_service(task["id"])
