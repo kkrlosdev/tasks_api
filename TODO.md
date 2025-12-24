@@ -1,0 +1,2 @@
+- Define tasks state
+- Don't let the project die
