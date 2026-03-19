@@ -1,7 +1,7 @@
 from datetime import datetime
 
 def validate_date(value: str) -> bool:
-    if not value or not isinstance(value, str):
+    if not value or not isinstance(value, str): # type: ignore
         return False
 
     formats = [

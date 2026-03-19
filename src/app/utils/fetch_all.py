@@ -1,11 +1,13 @@
-from datetime import *
+from datetime import datetime, date
 from decimal import Decimal
+from sqlite3.dbapi2 import Cursor
+from typing import Any
 
-def fetch_all(cursor) -> list[dict]:
+def fetch_all(cursor: Cursor) -> list[dict[str, Any]]:
     columns = [desc[0] for desc in cursor.description]
     rows = cursor.fetchall()
     
-    def serialize(value):
+    def serialize(value: Any):
         if isinstance(value, (datetime, date)):
             return value.strftime('%Y-%m-%d')
         if isinstance(value, Decimal):

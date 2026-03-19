@@ -1,4 +1,7 @@
-def fetch_one(cursor) -> dict | None:
+from sqlite3.dbapi2 import Cursor
+from typing import Any
+
+def fetch_one(cursor: Cursor) -> dict[str, Any] | None:
     columns = [desc[0] for desc in cursor.description]
     row = cursor.fetchone()
 
