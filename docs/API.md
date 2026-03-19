@@ -11,7 +11,7 @@ Verifica que la API está activa.
 
 **Response 200**
 ```json
-{}
+{"status": "OK"}
 ```
 
 ---
@@ -55,9 +55,9 @@ Crea una nueva tarea.
 }
 ```
 
-**Response 200**
+**Response 201**
 ```json
-{}
+{"id": 1}
 ```
 
 ---
@@ -84,10 +84,7 @@ Actualiza completamente una tarea.
 }
 ```
 
-**Response 200**
-```json
-{}
-```
+**Response 204 (No Content)**
 
 ---
 
