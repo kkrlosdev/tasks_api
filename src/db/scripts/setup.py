@@ -1,6 +1,7 @@
-from ..connection import connect
-import click
 import sys
+import click
+
+from ..connection import connect
 
 def create_tasks_table():
     try:
@@ -8,8 +9,7 @@ def create_tasks_table():
     except Exception as e:
         raise Exception(f"Could not connect to database during table creation: {e}")
 
-    if conn is not None:
-        cursor = conn.cursor()
+    cursor = conn.cursor()
 
     try:
         cursor.execute("""
@@ -36,8 +36,7 @@ def drop_table(table_name: str):
     except Exception as e:
         raise Exception(f"Could not connect to database during DROP TABLE operation: {e}")
 
-    if conn is not None:
-        cursor = conn.cursor()
+    cursor = conn.cursor()
 
     try:
         cursor.execute(f"DROP TABLE {table_name};")
