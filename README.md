@@ -30,13 +30,9 @@ Install dependencies
 pip install -r requirements.txt
 ```
 I also recommend using Docker Compose to develop and set up your own environment, there's already a file dedicated for that (make sure you have Docker Compose Plugin installed on your machine):
-- Unix-like systems
 ```bash
-docker compose -f ./docker/docker-compose.yml up --build -d
+docker compose --env-file .env -f ./docker/docker-compose.yml up --build -d
 ```
-- Windows
-```bash
-docker compose -f .\docker\docker-compose.yml up --build -d
-```
+
 
 Then visit `http://localhost:8000/docs` on your browser to see SwaggerUI documentation.

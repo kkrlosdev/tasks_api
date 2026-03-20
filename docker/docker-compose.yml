@@ -1,3 +1,4 @@
+name: tasks_api
 services:
   tasks_api:
     build:
@@ -5,5 +6,5 @@ services:
       dockerfile: ./docker/Dockerfile
     container_name: tasks_api
     ports:
-      - "8000:8000"
+      - "${API_PORT}:8000"
     restart: unless-stopped
