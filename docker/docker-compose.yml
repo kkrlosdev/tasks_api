@@ -1,4 +1,4 @@
-name: tasks_api
+name: tasks_project
 services:
   tasks_api:
     build:
@@ -8,3 +8,14 @@ services:
     ports:
       - "${API_PORT}:8000"
     restart: unless-stopped
+
+  frontend_tasks:
+    build:
+      context: ..
+      dockerfile: ./frontend/docker/Dockerfile
+    container_name: tasks_frontend
+    ports:
+      - "3000:80"
+    restart: unless-stopped
+    depends_on:
+      - tasks_api
