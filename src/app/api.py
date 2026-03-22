@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from .routers import tasks
 import uvicorn
 
+from .config.app import SERVICE_NAME, ENVIRONMENT, STARTUP_TIME, API_PORT
+
 app = FastAPI(
     title="Tasks API",
     summary="API REST para gestión de tareas.",
@@ -15,11 +17,17 @@ app = FastAPI(
         description="Retorna un mensaje sencillo para indicar que la API está activa."
         )
 async def health_check():
-    return {"status": "OK"}
+    return {
+        "status": "ok",
+        "service_name": SERVICE_NAME,
+        "environment": ENVIRONMENT,
+        "startup_time": STARTUP_TIME
+    }
 
 app.include_router(tasks.router)
 
 if __name__ == "__main__":
     uvicorn.run(
-        app=app
+        app=app,
+        port=int(API_PORT)
     )

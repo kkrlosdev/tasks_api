@@ -1,6 +1,8 @@
 name: tasks_project
 services:
   tasks_api:
+    env_file:
+      - ../.env
     build:
       context: ..
       dockerfile: ./docker/Dockerfile
