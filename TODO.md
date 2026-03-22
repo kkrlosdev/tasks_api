@@ -1,2 +1,2 @@
 - Define tasks state
-- Don't let the project die
+- Improve static typing in API
