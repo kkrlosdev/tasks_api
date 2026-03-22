@@ -6,3 +6,6 @@ __pycache__/
 .vscode/
 .idea/
 docker/
+frontend/node_modules
+frontend/dist
+.git
