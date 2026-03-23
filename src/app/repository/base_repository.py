@@ -1,6 +1,18 @@
-from db.connection import connect
+from enum import StrEnum
+from types import TracebackType
+from typing import Iterable, Any, Mapping, Type
+
+
 from app.utils.fetch_all import fetch_all
 from app.utils.fetch_one import fetch_one
+from db.connection import connect
+
+
+SQLParams = Iterable[Any] | Mapping[str, Any]
+
+class ExecuteMode(StrEnum):
+    ALL = "all"
+    ONE = "one"
 
 class BaseRepository:
     def __enter__(self):
@@ -9,35 +21,47 @@ class BaseRepository:
         self.cursor = self.connection.cursor()
         return self
 
-    def __exit__(self, exc_type, exc_value, traceback):
-        # Se ejecuta siempre al cierre de la operación; en caso de éxito hace commit, sino hace rollback. Para finalizar cierra conexión y cursor.
+    def __exit__(
+            self,
+            exc_type: Type[BaseException] | None,
+            _exc_value: BaseException | None,
+            traceback: TracebackType | None
+        ) -> None:
+        # Se ejecuta siempre al cierre de la operación; en caso de éxito hace commit, sino hace rollback.
         if exc_type:
             self.connection.rollback()
         else:
             self.connection.commit()
+
         self.cursor.close()
         self.connection.close()
 
-    def _execute_query(self, query, params=None, mode=None):
+    def _execute_query(
+            self,
+            query: str,
+            params: SQLParams | None = None,
+            mode: ExecuteMode | None = None
+        ) -> Any:
         """
         Ejecuta una consulta SQL.
 
         # Params:
         - query: la consulta SQL.
         - params: los parámetros para la consulta.
-        - mode: 'one' para fetchone, 'all' para fetchall, None para operaciones tipo INSERT/UPDATE/DELETE.
+        - mode: ExecuteMode.ONE para fetchone, ExecuteMode.ALL para fetchall, None para consultas tipo INSERT / UPDATE / DELETE
         """
-        try:
-            if params is None:
-                self.cursor.execute(query)
-            else:
-                self.cursor.execute(query, params)
+        if params is None:
+            self.cursor.execute(query)
+        else:
+            self.cursor.execute(query, params) # type: ignore
 
-            if mode == "one":
+        match mode:
+            case ExecuteMode.ONE:
                 return fetch_one(self.cursor)
-            elif mode == "all":
+            case ExecuteMode.ALL:
                 return fetch_all(self.cursor)
-            elif mode is None:
-                return {"rowcount": self.cursor.rowcount, "lastrowid": self.cursor.lastrowid}
-        except:
-            raise
+            case _:
+                return {
+                    "rowcount": self.cursor.rowcount,
+                    "lastrowid": self.cursor.lastrowid
+                }
