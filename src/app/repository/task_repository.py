@@ -6,7 +6,7 @@ class TasksRepository(BaseRepository):
         query = """SELECT * FROM tasks;"""
         return self._execute_query(query, mode=ExecuteMode.ALL)
 
-    def get_task_by_id(self, id: int) -> Task:
+    def get_task_by_id(self, id: int):
         query = """SELECT * FROM tasks WHERE id = ?;"""
         return self._execute_query(query, params=(id,), mode=ExecuteMode.ONE)
 
