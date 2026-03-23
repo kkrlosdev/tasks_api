@@ -54,7 +54,7 @@ class TasksService:
         if not validate_date(end_date):
             raise ValueError("Fecha de finalización inválida.")
 
-        if len(short_description) > 100:
+        if short_description and len(short_description) > 100:
             raise ValueError("Longitud de la descripción corta excede los 100 carácteres.")
 
         if status not in (0, 1, 2):
