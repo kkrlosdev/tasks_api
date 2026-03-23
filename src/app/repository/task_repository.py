@@ -1,5 +1,5 @@
 from .base_repository import BaseRepository, ExecuteMode
-from models.task import Task
+from ..models.task import Task
 
 class TasksRepository(BaseRepository):
     def get_tasks(self) -> list[Task]:
