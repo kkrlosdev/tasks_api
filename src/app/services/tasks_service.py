@@ -33,14 +33,11 @@ class TasksService:
         if status not in (0, 1, 2):
             raise ValueError("Estado inválido.")
 
-        try:
-            data = self.repo.create_task(name, begin_date, end_date, short_description, long_description, status)
-            lastrowid = data.get("id")
-            if lastrowid:
-                return lastrowid
-        except Exception:
-            raise
-
+        data = self.repo.create_task(name, begin_date, end_date, short_description, long_description, status)
+        if data is None:
+            raise Exception(f"No se pudo crear la tarea.")
+        return data["id"]
+        
     def delete_task_service(self, id: int):
         try:
             data = self.repo.delete_task(id)
