@@ -31,7 +31,7 @@ pip install -r requirements.txt
 ```
 I also recommend using Docker Compose to develop and set up your own environment, there's already a file dedicated for that (make sure you have Docker Compose Plugin installed on your machine):
 ```bash
-docker compose --env-file .env -f ./docker/docker-compose.yml up --build -d
+.scripts/build.sh up
 ```
 
 
