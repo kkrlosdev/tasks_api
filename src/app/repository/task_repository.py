@@ -19,8 +19,8 @@ class TasksRepository(BaseRepository):
                 name: str,
                 begin_date: str,
                 end_date: str,
-                short_description: str,
-                long_description: str,
+                short_description: str | None,
+                long_description: str | None,
                 status: int
             ):
         query = """
@@ -42,8 +42,8 @@ class TasksRepository(BaseRepository):
                 name: str,
                 begin_date: str,
                 end_date: str,
-                short_description: str,
-                long_description: str,
+                short_description: str | None,
+                long_description: str | None,
                 status: int
             ):
         query = """

@@ -20,7 +20,15 @@ class TasksService:
             raise ValueError("Estado inválido.")
         return self.repo.get_tasks_by_status(status)
 
-    def create_task_service(self, name: str, begin_date: str, end_date: str, short_description: str, long_description: str, status: int):
+    def create_task_service(
+                        self,
+                        name: str,
+                        begin_date: str,
+                        end_date: str,
+                        short_description: str | None,
+                        long_description: str | None,
+                        status: int
+                    ):
         if not name:
             raise ValueError("La tarea debe tener un nombre")
 
@@ -33,7 +41,14 @@ class TasksService:
         if status not in (0, 1, 2):
             raise ValueError("Estado inválido.")
 
-        data = self.repo.create_task(name, begin_date, end_date, short_description, long_description, status)
+        data = self.repo.create_task(
+                                name,
+                                begin_date,
+                                end_date,
+                                short_description,
+                                long_description,
+                                status
+                            )
         if data is None:
             raise Exception(f"No se pudo crear la tarea.")
         return data["id"]
@@ -48,9 +63,19 @@ class TasksService:
         except Exception:
             raise
 
-    def update_task_service(self,  id: int, name: str, begin_date: str, end_date: str, short_description: str, long_description: str, status: int):
+    def update_task_service(
+                        self,
+                        id: int,
+                        name: str,
+                        begin_date: str,
+                        end_date: str,
+                        short_description: str | None,
+                        long_description: str | None,
+                        status: int
+                    ):
         if not validate_date(begin_date):
             raise ValueError("Fecha de inicio inválida.")
+
         if not validate_date(end_date):
             raise ValueError("Fecha de finalización inválida.")
 
