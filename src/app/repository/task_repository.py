@@ -1,3 +1,5 @@
+from typing import Any
+
 from .base_repository import BaseRepository, ExecuteMode
 from ..models.task import Task
 
@@ -6,7 +8,7 @@ class TasksRepository(BaseRepository):
         query = """SELECT * FROM tasks;"""
         return self._execute_query(query, mode=ExecuteMode.ALL)
 
-    def get_task_by_id(self, id: int):
+    def get_task_by_id(self, id: int) -> dict[str, Any]:
         query = """SELECT * FROM tasks WHERE id = ?;"""
         return self._execute_query(query, params=(id,), mode=ExecuteMode.ONE)
 
@@ -27,7 +29,17 @@ class TasksRepository(BaseRepository):
                 INSERT INTO tasks (name, begin_date, end_date, short_description, long_description, status)
                 VALUES (?, ?, ?, ?, ?, ?);
                 """
-        data = self._execute_query(query, params=(name, begin_date, end_date, short_description, long_description, status))
+        data = self._execute_query(
+                                query,
+                                params=(
+                                    name,
+                                    begin_date,
+                                    end_date,
+                                    short_description,
+                                    long_description,
+                                    status
+                                    )
+                                )
         if data["rowcount"] == 1:
             return {"id": data["lastrowid"]}
 
@@ -52,4 +64,15 @@ class TasksRepository(BaseRepository):
                 short_description = ?, long_description = ?, status = ?
                 WHERE id = ?
                 """
-        return self._execute_query(query, (name, begin_date, end_date, short_description, long_description, status, id))
+        return self._execute_query(
+                            query,
+                            (
+                            name,
+                            begin_date,
+                            end_date,
+                            short_description,
+                            long_description,
+                            status,
+                            id
+                            )
+                        )
