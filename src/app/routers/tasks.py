@@ -1,6 +1,6 @@
-from fastapi import APIRouter
-from fastapi.exceptions import HTTPException
-from fastapi.responses import JSONResponse, Response
+from fastapi import APIRouter, HTTPException, Response
+from fastapi.responses import JSONResponse
+
 from ..repository.task_repository import TasksRepository
 from ..services.tasks_service import TasksService
 from ..exceptions.exceptions import NotFoundError
@@ -34,7 +34,7 @@ async def get_tasks(status: int | None = None):
     "",
     summary="Crea una tarea en base de datos.",
     description="Se valida el JSON recibido mediante Pydantic"
-)
+        )
 async def create_task(task: Task):
     with TasksRepository() as repo:
         service = TasksService(repo)
@@ -57,7 +57,7 @@ async def create_task(task: Task):
         "/{id}",
         summary="Recibe un id como parámetro de ruta y lo elimina de la base de datos",
         description="Si el id no existe se retornará 404, de lo contrario, se retorna 204 en caso de éxito."
-)
+        )
 async def delete_task(id: int):
     with TasksRepository() as repo:
         service = TasksService(repo)
@@ -74,7 +74,7 @@ async def delete_task(id: int):
     "/{id}",
     summary="Actualiza completamente un recurso en la base de datos",
     description="Validamos la estructura del JSON mediante un modelo TaskUpdate donde recibamos el ID y los datos de la tarea."
-)
+        )
 async def update_task(task: TaskUpdate):
     try:
         with TasksRepository() as repo:
