@@ -2,11 +2,9 @@ from enum import StrEnum
 from types import TracebackType
 from typing import Iterable, Any, Mapping, Type
 
-
 from app.utils.fetch_all import fetch_all
 from app.utils.fetch_one import fetch_one
 from db.connection import connect
-
 
 SQLParams = Iterable[Any] | Mapping[str, Any]
 
@@ -16,7 +14,7 @@ class ExecuteMode(StrEnum):
 
 class BaseRepository:
     def __enter__(self):
-        # Se ejecuta al momento de abrir la conexión y crea la conexión y el cursor. Retorna el DAO
+        # Se ejecuta al momento de abrir la conexión y crea la conexión y el cursor.
         self.connection = connect()
         self.cursor = self.connection.cursor()
         return self
