@@ -1,2 +1,4 @@
 - Define tasks state
 - Improve static typing in API
+- Implement criticity
+- Implement tags for tasks
