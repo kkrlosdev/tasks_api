@@ -1,8 +1,8 @@
 from fastapi import FastAPI
-from .routers import tasks
 import uvicorn
 
-from .config.app import SERVICE_NAME, ENVIRONMENT, STARTUP_TIME, API_PORT
+from app.config.app import SERVICE_NAME, ENVIRONMENT, STARTUP_TIME, API_PORT
+from app.routers import tasks
 
 app = FastAPI(
     title="Tasks API",

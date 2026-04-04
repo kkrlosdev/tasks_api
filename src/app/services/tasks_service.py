@@ -1,6 +1,6 @@
-from ..exceptions.exceptions import NotFoundError
-from ..repository.task_repository import TasksRepository
-from ..utils.validate_date import validate_date
+from app.exceptions.exceptions import NotFoundError
+from app.repository.task_repository import TasksRepository
+from app.utils.validate_date import validate_date
 
 class TasksService:
     def __init__(self, repo: TasksRepository):
