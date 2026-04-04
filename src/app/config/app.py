@@ -1,6 +1,6 @@
 import datetime
 
-from .get_required_env import get_required_env
+from app.config.get_required_env import get_required_env
 
 SERVICE_NAME = get_required_env("SERVICE_NAME")
 ENVIRONMENT = get_required_env("ENVIRONMENT")

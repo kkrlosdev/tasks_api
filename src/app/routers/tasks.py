@@ -1,11 +1,11 @@
 from fastapi import APIRouter, HTTPException, Response
 from fastapi.responses import JSONResponse
 
-from ..repository.task_repository import TasksRepository
-from ..services.tasks_service import TasksService
-from ..exceptions.exceptions import NotFoundError
-from ..models.task import Task
-from ..models.task_update import TaskUpdate
+from app.repository.task_repository import TasksRepository
+from app.services.tasks_service import TasksService
+from app.exceptions.exceptions import NotFoundError
+from app.models.task import Task
+from app.models.task_update import TaskUpdate
 
 router = APIRouter(
     prefix="/tasks",

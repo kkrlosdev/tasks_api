@@ -1,7 +1,7 @@
 import sys
 import click
 
-from ..connection import connect
+from db.connection import connect
 
 def create_tasks_table():
     try:

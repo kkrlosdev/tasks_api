@@ -1,7 +1,7 @@
 from typing import Any
 
-from .base_repository import BaseRepository, ExecuteMode
-from ..models.task import Task
+from app.repository.base_repository import BaseRepository, ExecuteMode
+from app.models.task import Task
 
 class TasksRepository(BaseRepository):
     def get_tasks(self) -> list[Task]:
