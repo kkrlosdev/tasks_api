@@ -1,11 +1,10 @@
 from fastapi import APIRouter, HTTPException, Response
 from fastapi.responses import JSONResponse
 
-from app.repository.task_repository import TasksRepository
-from app.services.tasks_service import TasksService
 from app.exceptions.exceptions import NotFoundError
 from app.models.task import Task
-from app.models.task_update import TaskUpdate
+from app.repository.task_repository import TasksRepository
+from app.services.tasks_service import TasksService
 
 router = APIRouter(
     prefix="/tasks",
@@ -75,12 +74,12 @@ async def delete_task(id: int):
     summary="Actualiza completamente un recurso en la base de datos",
     description="Validamos la estructura del JSON mediante un modelo TaskUpdate donde recibamos el ID y los datos de la tarea."
         )
-async def update_task(task: TaskUpdate):
+async def update_task(id: int, task: Task):
     try:
         with TasksRepository() as repo:
             service = TasksService(repo)
             service.update_task_service(
-                task.id,
+                id,
                 task.name,
                 task.begin_date,
                 task.end_date,
