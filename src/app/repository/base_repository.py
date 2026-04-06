@@ -16,6 +16,7 @@ class BaseRepository:
     def __enter__(self):
         # Se ejecuta al momento de abrir la conexión y crea la conexión y el cursor.
         self.connection = connect()
+        self._configure_connection()
         self.cursor = self.connection.cursor()
         return self
 
@@ -33,6 +34,13 @@ class BaseRepository:
 
         self.cursor.close()
         self.connection.close()
+
+    def _configure_connection(self):
+        """
+        Método para establecer las propiedades de una conexión.
+        Por el momento, activa las restricciones de llaves foráneas.
+        """
+        self.connection.execute("PRAGMA foreign_keys = ON;")
 
     def _execute_query(
             self,
