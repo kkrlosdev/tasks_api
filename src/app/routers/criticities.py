@@ -38,8 +38,8 @@ def get_criticity_by_id(id: int):
         )
 def create_criticity(criticity: Criticity):
     with CriticityRepository() as repo:
+        service = CriticityService(repo)
         try:
-            service = CriticityService(repo)
             created_criticity = service.create_criticity(criticity.name)
         except CriticityAlreadyExistsError as e:
             raise HTTPException(409, detail=str(e))
