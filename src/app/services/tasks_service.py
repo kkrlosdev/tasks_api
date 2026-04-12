@@ -1,4 +1,4 @@
-from app.exceptions.exceptions import NotFoundError
+from app.exceptions import NotFoundError
 from app.repository.task_repository import TasksRepository
 from app.utils.validate_date import validate_date
 
