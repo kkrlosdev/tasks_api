@@ -30,7 +30,7 @@ def get_criticity_by_id(id: int):
         try:
             return service.get_criticity_by_id(id)
         except NotFoundError:
-            raise HTTPException(400, detail=f"Tarea con ID {id} no encontrada en la base de datos.")
+            raise HTTPException(404, detail=f"Tarea con ID {id} no encontrada en la base de datos.")
 
 @router.post(
         "",
