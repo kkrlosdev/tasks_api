@@ -7,13 +7,7 @@ from app.routers import tasks, criticities, tags
 app = FastAPI(
     title="Tasks API",
     summary="API REST para gestión de tareas.",
-    description="Acopla todos los endpoints habilitados para la gestión de tareas.",
-    servers=[
-        {
-            "url": "http://localhost:8000",
-            "description": "Local"
-        }
-    ]
+    description="Acopla todos los endpoints habilitados para la gestión de tareas."
 )
 
 @app.get(
