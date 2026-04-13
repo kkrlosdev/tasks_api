@@ -10,3 +10,9 @@ class CriticityAlreadyExistsError(DomainError):
 
 class CriticityCreationError(DomainError):
     pass
+
+class TagAlreadyExistsError(DomainError):
+    pass
+
+class TagCreationError(DomainError):
+    pass
