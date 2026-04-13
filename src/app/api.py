@@ -2,7 +2,7 @@ from fastapi import FastAPI
 import uvicorn
 
 from app.config.app import SERVICE_NAME, ENVIRONMENT, STARTUP_TIME, API_PORT
-from app.routers import tasks, criticities
+from app.routers import tasks, criticities, tags
 
 app = FastAPI(
     title="Tasks API",
@@ -26,6 +26,7 @@ async def health_check():
 
 app.include_router(tasks.router)
 app.include_router(criticities.router)
+app.include_router(tags.router)
 
 
 if __name__ == "__main__":
