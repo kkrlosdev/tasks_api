@@ -11,4 +11,7 @@ ENV PYTHONPATH=/app/src
 
 EXPOSE 8000
 
+ARG BUILD_TIME
+ENV BUILD_TIME=$BUILD_TIME
+
 CMD ["uvicorn", "app.api:app", "--host", "0.0.0.0", "--port", "8000"]

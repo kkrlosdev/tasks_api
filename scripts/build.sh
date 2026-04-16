@@ -33,6 +33,9 @@ fi
 if [ "$MODE" = "up" ]; then
   echo "Starting services..."
 
+  BUILD_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+  export BUILD_TIME
+
   if [ "$OPTION" = "--no-build" ]; then
     docker compose \
       --env-file "$ENV_FILE" \
