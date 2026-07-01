@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Response
 from fastapi.responses import JSONResponse
 
-from app.exceptions.exceptions import NotFoundError
+from app.exceptions import NotFoundError
 from app.models.task import Task
 from app.repository.task_repository import TasksRepository
 from app.services.tasks_service import TasksService
@@ -11,11 +11,12 @@ router = APIRouter(
     tags=["Gestión de tareas."],
 )
 
+
 @router.get(
-        "",
-        summary="Obtiene todas las tareas disponibles, ofrece la oportunidad de filtrar por estado.",
-        description="El parámetro 'status' es opcional. Si es un estado inválido se recibe una HTTPException manejada por FastAPI."
-        )
+    "",
+    summary="Obtiene todas las tareas disponibles, ofrece la oportunidad de filtrar por estado.",
+    description="El parámetro 'status' es opcional. Si es un estado inválido se recibe una HTTPException manejada por FastAPI.",
+)
 async def get_tasks(status: int | None = None):
     with TasksRepository() as repo:
         service = TasksService(repo)
@@ -29,34 +30,40 @@ async def get_tasks(status: int | None = None):
             data = service.list_tasks()
         return data
 
+
 @router.post(
     "",
     summary="Crea una tarea en base de datos.",
-    description="Se valida el JSON recibido mediante Pydantic"
-        )
+    description="Se valida el JSON recibido mediante Pydantic",
+)
 async def create_task(task: Task):
     with TasksRepository() as repo:
         service = TasksService(repo)
         try:
             task = service.create_task_service(
-                                    task.name,
-                                    task.begin_date,
-                                    task.end_date,
-                                    task.short_description,
-                                    task.long_description,
-                                    task.status
-                                    )
-            return JSONResponse(content={"id": task}, status_code=201, headers={"Location": f"/tasks/{task}"})
+                task.name,
+                task.begin_date,
+                task.end_date,
+                task.short_description,
+                task.long_description,
+                task.status,
+            )
+            return JSONResponse(
+                content={"id": task},
+                status_code=201,
+                headers={"Location": f"/tasks/{task}"},
+            )
         except ValueError as e:
             raise HTTPException(400, detail=str(e))
         except Exception as e:
             raise HTTPException(500, detail=str(e))
 
+
 @router.delete(
-        "/{id}",
-        summary="Recibe un id como parámetro de ruta y lo elimina de la base de datos",
-        description="Si el id no existe se retornará 404, de lo contrario, se retorna 204 en caso de éxito."
-        )
+    "/{id}",
+    summary="Recibe un id como parámetro de ruta y lo elimina de la base de datos",
+    description="Si el id no existe se retornará 404, de lo contrario, se retorna 204 en caso de éxito.",
+)
 async def delete_task(id: int):
     with TasksRepository() as repo:
         service = TasksService(repo)
@@ -64,16 +71,19 @@ async def delete_task(id: int):
         try:
             task = service.get_task(id)
         except NotFoundError:
-            raise HTTPException(status_code=404, detail=f"No existe la tarea con ID: {id}")
+            raise HTTPException(
+                status_code=404, detail=f"No existe la tarea con ID: {id}"
+            )
 
         service.delete_task_service(task["id"])
         return Response(status_code=204)
 
+
 @router.put(
     "/{id}",
     summary="Actualiza completamente un recurso en la base de datos",
-    description="Validamos la estructura del JSON mediante un modelo TaskUpdate donde recibamos el ID y los datos de la tarea."
-        )
+    description="Validamos la estructura del JSON mediante un modelo TaskUpdate donde recibamos el ID y los datos de la tarea.",
+)
 async def update_task(id: int, task: Task):
     try:
         with TasksRepository() as repo:
@@ -85,7 +95,7 @@ async def update_task(id: int, task: Task):
                 task.end_date,
                 task.short_description,
                 task.long_description,
-                task.status
+                task.status,
             )
             return Response(status_code=204)
     except ValueError as e:
