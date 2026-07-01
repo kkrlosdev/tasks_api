@@ -1,6 +1,8 @@
 name: tasks_project
 services:
   tasks_api:
+    environment:
+      TZ: ${TIMEZONE}
     env_file:
       - ../.env
     build:
