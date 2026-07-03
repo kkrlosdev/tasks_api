@@ -1,7 +1,6 @@
-from fastapi import APIRouter, HTTPException, Response
+from fastapi import APIRouter, Response
 from fastapi.responses import JSONResponse
 
-from app.exceptions import TagAlreadyExistsError, TagCreationError
 from app.models.tag import Tag
 from app.repository.tag_repository import TagRepository
 from app.services.tag_service import TagService
@@ -27,15 +26,10 @@ def get_tag_by_id(id: int):
 def create_tag(tag: Tag):
     with TagRepository() as repo:
         service = TagService(repo)
-        try:
-            created_tag = service.create_tag(tag.name)
-            return JSONResponse(
-                content=created_tag, headers={"Location": f"/tags/{created_tag['id']}"}
-            )
-        except TagAlreadyExistsError as e:
-            raise HTTPException(409, detail=str(e))
-        except TagCreationError as e:
-            return JSONResponse(content={"detail": str(e)}, status_code=500)
+        created_tag = service.create_tag(tag.name)
+        return JSONResponse(
+            content=created_tag, headers={"Location": f"/tags/{created_tag['id']}"}
+        )
 
 
 @router.patch(
@@ -44,11 +38,8 @@ def create_tag(tag: Tag):
 def update_tag(id: int, tag: Tag):
     with TagRepository() as repo:
         service = TagService(repo)
-        try:
-            service.update_tag(id, tag.name)
-            return Response(status_code=204)
-        except TagAlreadyExistsError as e:
-            raise HTTPException(409, detail=str(e))
+        service.update_tag(id, tag.name)
+        return Response(status_code=204)
 
 
 @router.delete("/{id}", summary="Elimina un tag de la base de datos.")

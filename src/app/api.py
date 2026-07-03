@@ -2,8 +2,8 @@ from fastapi import FastAPI
 import uvicorn
 
 from app.config.app import SERVICE_NAME, ENVIRONMENT, STARTUP_TIME, API_PORT, BUILD_TIME
-from app.exceptions import NotFoundError
-from app.exceptions.handlers import not_found_handler
+from app.exceptions import DomainError
+from app.exceptions.handlers import domain_error_handler
 from app.routers import tasks, criticities, tags
 
 app = FastAPI(
@@ -33,7 +33,7 @@ app.include_router(tasks.router)
 app.include_router(criticities.router)
 app.include_router(tags.router)
 
-app.add_exception_handler(NotFoundError, not_found_handler)  # type: ignore
+app.add_exception_handler(DomainError, domain_error_handler)  # type: ignore
 
 
 if __name__ == "__main__":

@@ -1,1 +1,1 @@
-from .not_found_handler import not_found_handler as not_found_handler
+from .domain_handler import domain_error_handler as domain_error_handler

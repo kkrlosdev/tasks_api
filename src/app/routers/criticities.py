@@ -1,10 +1,6 @@
-from fastapi import APIRouter, HTTPException, Response
+from fastapi import APIRouter, Response
 from fastapi.responses import JSONResponse
 
-from app.exceptions import (
-    CriticityAlreadyExistsError,
-    CriticityCreationError,
-)
 from app.models.criticity import Criticity
 from app.repository.criticity_repository import CriticityRepository
 from app.services.criticity_service import CriticityService
@@ -32,12 +28,8 @@ def get_criticity_by_id(id: int):
 def create_criticity(criticity: Criticity):
     with CriticityRepository() as repo:
         service = CriticityService(repo)
-        try:
-            created_criticity = service.create_criticity(criticity.name)
-        except CriticityAlreadyExistsError as e:
-            raise HTTPException(409, detail=str(e))
-        except CriticityCreationError as e:
-            raise HTTPException(500, detail=str(e))
+        created_criticity = service.create_criticity(criticity.name)
+
         return JSONResponse(
             content={"id": created_criticity["id"]},
             headers={"Location": f"/criticities/{created_criticity['id']}"},
@@ -56,10 +48,5 @@ def delete_criticity(id: int):
 def update_criticity(id: int, criticity: Criticity) -> dict[str, int | str]:
     with CriticityRepository() as repo:
         service = CriticityService(repo)
-        try:
-            service.update_criticity(id, criticity.name)
-            return {"id": id, "name": criticity.name}
-        except CriticityAlreadyExistsError as e:
-            raise HTTPException(409, detail=str(e))
-        except CriticityCreationError as e:
-            raise HTTPException(500, detail=str(e))
+        service.update_criticity(id, criticity.name)
+        return {"id": id, "name": criticity.name}
