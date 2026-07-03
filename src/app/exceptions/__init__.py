@@ -4,6 +4,7 @@ from .criticity_already_exists_error import CriticityAlreadyExistsError
 from .criticity_creation_error import CriticityCreationError
 from .tag_already_exists_error import TagAlreadyExistsError
 from .tag_creation_error import TagCreationError
+from .invalid_task_status_error import InvalidTaskStatusError
 
 
 __all__ = [
@@ -13,4 +14,5 @@ __all__ = [
     "CriticityCreationError",
     "TagAlreadyExistsError",
     "TagCreationError",
+    "InvalidTaskStatusError",
 ]
