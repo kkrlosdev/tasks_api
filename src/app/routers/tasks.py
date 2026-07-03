@@ -54,8 +54,6 @@ async def create_task(task: Task):
             )
         except ValueError as e:
             raise HTTPException(400, detail=str(e))
-        except Exception as e:
-            raise HTTPException(500, detail=str(e))
 
 
 @router.delete(
